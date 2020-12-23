@@ -29,6 +29,7 @@
             </plugin>
         </plugins>
     </build>
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/io.appium/java-client -->
         <dependency>
