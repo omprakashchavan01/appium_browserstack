@@ -7,7 +7,7 @@
             <!--<class name="com.qa.tests.ProductTests"/>-->
         </classes>
     </test>
-    <!--<test name="iPhone_XS">
+<!--    <test name="iPhone_XS">
         <parameter name="deviceID" value="2"/>
         <classes>
             <class name="com.qa.tests.LoginTests"/>
