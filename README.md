@@ -6,6 +6,6 @@ Framework follows many of the industry best practices.
 
 **Step by step instructions to integrate the framework with the BrowserStack cloud is in this Highest Rated Udemy course.
 Enroll today at the minimal rate of INR 570/ $12.99.
-Link with coupon code: https://www.udemy.com/course/the-complete-appium-course-for-ios-and-android/?couponCode=MASTERAPPIUM13**
+Link with coupon code: https://www.udemy.com/course/the-complete-appium-course-for-ios-and-android/?couponCode=MASTERAPPIUM18**
 
 ![One of the most comprehensive Appium course ever created](/CourseLandingPage.PNG)
