@@ -1,12 +1,12 @@
 {
   "1": {
-    "device": "Google Pixel 3",
-    "os_version": "10.0",
-    "app_url": "bs://1f83aee7c1b45bd82e8664b5ee91358f6f76e47f"
+    "device": "Google Pixel 5",
+    "os_version": "12.0",
+    "app_url": "bs://b5f8f49ca8b29514c24176bdf7b0ce0ee7ab11ff"
   },
   "2": {
-    "device": "iPhone XS",
-    "os_version": "14",
-    "app_url": "bs://2c24f44809c627e12e62b2d339bde19f948da12d"
+    "device": "iPhone 14 Pro Max",
+    "os_version": "16",
+    "app_url": "bs://b211fe2050a2bd1bf58a1a415de380cae934eb6e"
   }
 }

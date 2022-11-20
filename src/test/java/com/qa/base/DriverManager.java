@@ -1,6 +1,7 @@
 package com.qa.base;
 
 import com.qa.utils.JsonParser;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
@@ -8,6 +9,7 @@ import org.json.JSONObject;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.URL;
+import java.util.HashMap;
 
 public class DriverManager {
     private static final ThreadLocal<AppiumDriver> driver = new ThreadLocal<>();
@@ -21,27 +23,43 @@ public class DriverManager {
     }
 
     public static void initializeDriver(String deviceID) throws Exception {
-        AppiumDriver driver;
-    //    String userName = "omprakashchavan1";
-    //    String accessKey = "WSh657ymwgyZTQkTtVoy";
-        String userName = System.getenv("BROWSERSTACK_USERNAME");
-        String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
+
+        String userName = "omprakashchavan1";
+        String accessKey = "pmQHaJUnZBL1fUFUxnTQ";
+//        String userName = System.getenv("BROWSERSTACK_USERNAME");
+//        String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
     //    String browserstackLocal = System.getenv("BROWSERSTACK_LOCAL");
-        String buildName = System.getenv("BROWSERSTACK_BUILD_NAME");
+//        String buildName = System.getenv("BROWSERSTACK_BUILD_NAME");
+        String buildName = "My first build";
     //    String browserstackLocalIdentifier = System.getenv("BROWSERSTACK_LOCAL_IDENTIFIER");
-        String app = System.getenv("BROWSERSTACK_APP_ID");
+//        String app = System.getenv("BROWSERSTACK_APP_ID");
 
         JSONObject deviceObj = new JSONObject(JsonParser.parse("Devices.json").getJSONObject(deviceID).toString());
+
+        AppiumDriver driver;
         DesiredCapabilities caps = new DesiredCapabilities();
 
-        caps.setCapability("device", deviceObj.getString("device"));
-        caps.setCapability("os_version", deviceObj.getString("os_version"));
-        caps.setCapability("project", "My First Project");
-        caps.setCapability("build", buildName);
-        caps.setCapability("name", "Bstack-[Java] Sample Test");
-        caps.setCapability("app", app);
+//        caps.setCapability("platformName", "android");
+        caps.setCapability("platformVersion", deviceObj.getString("os_version"));
+        caps.setCapability("deviceName", deviceObj.getString("device"));
+        caps.setCapability("app", deviceObj.getString("app_url"));
+
+        HashMap<String, Object> browserstackOptions = new HashMap<>();
+
+        // Set BrowserStack capabilities
+//        browserstackOptions.put("userName", userName);
+//        browserstackOptions.put("accessKey", accessKey);
+        browserstackOptions.put("appiumVersion", "2.0.0");
+        browserstackOptions.put("projectName", "First Java Project");
+        browserstackOptions.put("buildName", "browserstack-build-1");
+        browserstackOptions.put("sessionName", "first_test");
+
+        caps.setCapability("bstack:options", browserstackOptions);
 
         URL url = new URL("https://"+userName+":"+accessKey+"@hub-cloud.browserstack.com/wd/hub");
+//        URL url = new URL("https://hub-cloud.browserstack.com/wd/hub");
+//        URL url = new URL("https://hub.browserstack.com/wd/hub");
+//        URL url = new URL("http://hub.browserstack.com/wd/hub");
 
         switch (deviceID){
             case "1":
