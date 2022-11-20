@@ -1,13 +1,13 @@
 package com.qa.base;
 
 import com.qa.utils.JsonParser;
-import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import org.json.JSONObject;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -22,51 +22,47 @@ public class DriverManager {
         driver.set(driver1);
     }
 
-    public static void initializeDriver(String deviceID) throws Exception {
-
-        String userName = "omprakashchavan1";
-        String accessKey = "pmQHaJUnZBL1fUFUxnTQ";
-//        String userName = System.getenv("BROWSERSTACK_USERNAME");
-//        String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
-    //    String browserstackLocal = System.getenv("BROWSERSTACK_LOCAL");
-//        String buildName = System.getenv("BROWSERSTACK_BUILD_NAME");
-        String buildName = "My first build";
-    //    String browserstackLocalIdentifier = System.getenv("BROWSERSTACK_LOCAL_IDENTIFIER");
-//        String app = System.getenv("BROWSERSTACK_APP_ID");
-
-        JSONObject deviceObj = new JSONObject(JsonParser.parse("Devices.json").getJSONObject(deviceID).toString());
-
+    public static void initializeDriver(String deviceID) throws MalformedURLException {
         AppiumDriver driver;
-        DesiredCapabilities caps = new DesiredCapabilities();
+//        String userName = "enter_your_browserstack_username";
+//        String accessKey = "enter_your_browserstack_accesskey";
+        String userName = System.getenv("BROWSERSTACK_USERNAME");
+        String accessKey = System.getenv("BROWSERSTACK_ACCESS_KEY");
+//        String browserstackLocal = System.getenv("BROWSERSTACK_LOCAL");
+        String buildName = System.getenv("BROWSERSTACK_BUILD_NAME");
+//        String browserstackLocalIdentifier = System.getenv("BROWSERSTACK_LOCAL_IDENTIFIER");
+        String app = System.getenv("BROWSERSTACK_APP_ID");
 
-//        caps.setCapability("platformName", "android");
-        caps.setCapability("platformVersion", deviceObj.getString("os_version"));
-        caps.setCapability("deviceName", deviceObj.getString("device"));
-        caps.setCapability("app", deviceObj.getString("app_url"));
+        JSONObject jsonObject = new JSONObject(
+                JsonParser.parse("Devices.json").getJSONObject(deviceID).toString()
+        );
+
+        DesiredCapabilities capabilities = new DesiredCapabilities();
 
         HashMap<String, Object> browserstackOptions = new HashMap<>();
-
-        // Set BrowserStack capabilities
 //        browserstackOptions.put("userName", userName);
 //        browserstackOptions.put("accessKey", accessKey);
+        browserstackOptions.put("projectName", "Project 1");
+        browserstackOptions.put("buildName", buildName);
+        browserstackOptions.put("sessionName", "Session 1");
         browserstackOptions.put("appiumVersion", "2.0.0");
-        browserstackOptions.put("projectName", "First Java Project");
-        browserstackOptions.put("buildName", "browserstack-build-1");
-        browserstackOptions.put("sessionName", "first_test");
+        capabilities.setCapability("bstack:options", browserstackOptions);
 
-        caps.setCapability("bstack:options", browserstackOptions);
+//        capabilities.setCapability("platformName", "android");
+        capabilities.setCapability("platformVersion", jsonObject.getString("os_version"));
+        capabilities.setCapability("deviceName", jsonObject.getString("device"));
+        capabilities.setCapability("app", app);
 
-        URL url = new URL("https://"+userName+":"+accessKey+"@hub-cloud.browserstack.com/wd/hub");
 //        URL url = new URL("https://hub-cloud.browserstack.com/wd/hub");
 //        URL url = new URL("https://hub.browserstack.com/wd/hub");
-//        URL url = new URL("http://hub.browserstack.com/wd/hub");
+        URL url = new URL("https://"+userName+":"+accessKey+"@hub-cloud.browserstack.com/wd/hub");
 
         switch (deviceID){
             case "1":
-                driver = new AndroidDriver(url, caps);
+                driver = new AndroidDriver(url, capabilities);
                 break;
             case "2":
-                driver = new IOSDriver(url, caps);
+                driver = new IOSDriver(url, capabilities);
                 break;
             default:
                 throw new IllegalStateException("invalid device id" + deviceID);
